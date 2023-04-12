@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeWork1
 {
-    internal class PaymentCard
+    abstract class PaymentCard
     {
         public string Number { get; set; }
         public DateCard Datecard;
@@ -27,6 +27,6 @@ namespace HomeWork1
             return  String.Format($"Number:{Number} Date:{Datecard} Name:{CustomerInfo} CCV:{CCV}");
 
         }
-       /* abstract bool MakePayment(float sum); */
+       
     }
 }

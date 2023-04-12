@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HomeWork1
 {
-    internal class CreditCard : PaymentCard
+    internal class CreditCard : PaymentCard, IPayment
     {
         public float PercentCredit { get; set; }
         public float LimitCredit { get; set; }
@@ -21,6 +21,15 @@ namespace HomeWork1
         {
             return String.Format($"Number:{Number} Date:{Datecard} Name:{CustomerInfo} CCV:{CCV} %Credit: {PercentCredit} LimitSum:{LimitCredit}" );
 
+        }
+        public bool MakePayment(float sum)
+        {
+            if (LimitCredit >= sum)
+            {
+                LimitCredit = LimitCredit - sum;
+                return true;
+            }
+            return false;
         }
     }
 }
