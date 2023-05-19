@@ -11,20 +11,18 @@ namespace HomeWork1
     {
         public string Number { get; set; }
         public DateCard Datecard;
-        public CustomerInfo CustomerInfo;
         public int CCV { get; set; }
 
-        public PaymentCard(string number, DateCard datecard, CustomerInfo customerInfo, int ccv)
+        public PaymentCard(string number, DateCard datecard, int ccv)
         {
             Number = number;
             Datecard = datecard;
-            CustomerInfo = customerInfo;
             CCV = ccv;
         }
         
         public virtual string GetFullInformation()
         {
-            return  String.Format($"Number:{Number} Date:{Datecard} Name:{CustomerInfo} CCV:{CCV}");
+            return  String.Format($"Number:{Number} Date:{Datecard} CCV:{CCV}");
 
         }
        

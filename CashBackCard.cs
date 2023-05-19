@@ -11,7 +11,7 @@ namespace HomeWork1
 
     {
         public float CashBackPercent { get; set; }
-        public CashBackCard(string number, DateCard datecard, CustomerInfo customerInfo, int ccv, float sum, float cashBackPercent) : base(number, datecard, customerInfo, ccv, sum)
+        public CashBackCard(string number, DateCard datecard, int ccv, float sum, float cashBackPercent) : base(number, datecard, ccv, sum)
         {
             CashBackPercent = cashBackPercent;
         }
@@ -26,7 +26,11 @@ namespace HomeWork1
         }
         public override string GetFullInformation()
         {
-            return String.Format($"Number:{Number} Date:{Datecard} Name:{CustomerInfo} CCV:{CCV}  Sum:{Sum} %CashBack:{CashBackPercent}");
+            return String.Format($"Number:{Number} Date:{Datecard} CCV:{CCV}  Sum:{Sum} %CashBack:{CashBackPercent}");
+        }
+        public float GetSum()
+        {
+            return Sum;
         }
     }
 }

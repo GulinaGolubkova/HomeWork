@@ -10,5 +10,7 @@ namespace HomeWork1
     {
         bool MakePayment(float sum);
         public string GetFullInformation();
+        public float GetSum();
+
     }
 }

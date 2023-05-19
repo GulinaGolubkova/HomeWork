@@ -11,7 +11,7 @@ namespace HomeWork1
         public float PercentCredit { get; set; }
         public float LimitCredit { get; set; }
 
-        public CreditCard(string number, DateCard datecard, CustomerInfo customerInfo, int ccv, float percentCredit, float limitCredit) : base(number, datecard, customerInfo, ccv)
+        public CreditCard(string number, DateCard datecard, int ccv, float percentCredit, float limitCredit) : base(number, datecard, ccv)
         {
             PercentCredit = percentCredit;
             LimitCredit = limitCredit;
@@ -19,7 +19,7 @@ namespace HomeWork1
         }
         public override string GetFullInformation()
         {
-            return String.Format($"Number:{Number} Date:{Datecard} Name:{CustomerInfo} CCV:{CCV} %Credit: {PercentCredit} LimitSum:{LimitCredit}" );
+            return String.Format($"Number:{Number} Date:{Datecard} CCV:{CCV} %Credit: {PercentCredit} LimitSum:{LimitCredit}" );
 
         }
         public bool MakePayment(float sum)
@@ -30,6 +30,10 @@ namespace HomeWork1
                 return true;
             }
             return false;
+        }
+        public float GetSum()
+        {
+            return LimitCredit;
         }
     }
 }

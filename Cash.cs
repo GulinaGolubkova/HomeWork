@@ -26,5 +26,9 @@ namespace HomeWork1
         {
             return String.Format($"Sum:{Sum}");
         }
+        public float GetSum()
+        {
+            return Sum;
+        }
     }
 }

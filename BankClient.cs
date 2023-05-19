@@ -12,7 +12,7 @@ namespace HomeWork1
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Address Address { get; set; }
-        private List<IPayment> PaymentMethods { get; set; }  
+        public List<IPayment> PaymentMethods { get; set; }  
 
         public BankClient(string firstname, string lastname, Address address, List<IPayment> paymentMethods)
         {
@@ -21,13 +21,18 @@ namespace HomeWork1
             Address = address;
             PaymentMethods = paymentMethods;    
         }
+
         public bool AddPaymentMethod(IPayment payElement)
         {
             PaymentMethods.Add(payElement);
             return true;
 
         }
-        
+        public int GetPaymentMethodCount() 
+        { 
+        return PaymentMethods.Count;
+        }
+
 
         public bool Pay(float sum)
         {
@@ -106,5 +111,6 @@ namespace HomeWork1
                 }
             }
         }
+
     }
 }

@@ -11,13 +11,13 @@ namespace HomeWork1
         public float PercentDebet { get; set; }
         public float Sum { get; set; }
 
-        public DebetCard(string number, DateCard datecard, CustomerInfo customerInfo, int ccv,  float sum) : base(number, datecard, customerInfo, ccv)
+        public DebetCard(string number, DateCard datecard, int ccv,  float sum) : base(number, datecard, ccv)
         {
         Sum = sum;
         }
         public override string GetFullInformation()
         {
-            return String.Format($"Number:{Number} Date:{Datecard} Name:{CustomerInfo} CCV:{CCV}  Sum:{Sum}");
+            return String.Format($"Number:{Number} Date:{Datecard} CCV:{CCV} Sum:{Sum}");
 
         }
         public virtual bool MakePayment(float sum)
@@ -28,6 +28,10 @@ namespace HomeWork1
                 return true;
             }
             return false;        
+        }
+        public float GetSum()
+        {
+            return Sum;
         }
     } 
 }
