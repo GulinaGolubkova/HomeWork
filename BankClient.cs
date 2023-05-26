@@ -28,9 +28,24 @@ namespace HomeWork1
             return true;
 
         }
-        public int GetPaymentMethodCount() 
-        { 
-        return PaymentMethods.Count;
+        public int GetPaymentMethodCount()
+        {   int count = 0;
+            foreach (IPayment paymentMethod in PaymentMethods)
+            {
+                if (paymentMethod is PaymentCard)
+                    count++;
+            }
+            return count;     
+        }
+
+        public float GetPaymentAmountSum() 
+        {
+            float generalSum = 0;
+            foreach (var item in PaymentMethods)
+            {
+                generalSum = generalSum + item.GetSum();
+            }
+            return generalSum;
         }
 
 
@@ -109,6 +124,12 @@ namespace HomeWork1
                     string information = (paymentMethod as Cash).GetFullInformation();
                     Console.WriteLine("Cash available: " + (paymentMethod as Cash).Sum);    
                 }
+                else if (paymentMethod is Bitcoin)
+                {
+                    string information = (paymentMethod as Bitcoin).GetFullInformation();
+                    Console.WriteLine("Bitcoin amount available: " + (paymentMethod as Bitcoin).Sum);
+                }
+
             }
         }
 

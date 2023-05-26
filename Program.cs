@@ -1,5 +1,7 @@
 ﻿using HomeWork1.Comparers;
 using System.Net;
+using System.Linq;
+using static HomeWork1.BankClient;
 using System.Security.Cryptography.X509Certificates;
 
 namespace HomeWork1
@@ -124,11 +126,114 @@ namespace HomeWork1
 
         }
 
+        static void Task3()
+        {
+            float exchangeRate = 26465.1F;
+            DebetCard card1 = new DebetCard("0000000000000001", new DateCard("2023", "12"), 111, 1200);
+            List<IPayment> paymentMethods1 = new List<IPayment>() { card1 };
+            BankClient client1 = new BankClient("Olga", "Golubkova", new Address("Gomel", "Sovietskaya", 1, 1), paymentMethods1);
+
+            DebetCard card2 = new DebetCard("1111111111111111", new DateCard("2023", "11"), 222, 1000);
+            CreditCard card3 = new CreditCard("2222222222222222", new DateCard("2023", "10"), 333, 20.56f, 12000);
+            Bitcoin bitcoin2 = new Bitcoin(1f, 1f * exchangeRate);
+            List<IPayment> paymentMethods2 = new List<IPayment>() { card2, card3, bitcoin2 };
+            BankClient client2 = new BankClient("Vasya", "Kruglov", new Address("Zaslavl", "Vasilkovaya", 2, 2), paymentMethods2);
+
+            DebetCard card4 = new DebetCard("3333333333333333", new DateCard("2023", "09"), 444, 800);
+            CreditCard card5 = new CreditCard("4444444444444444", new DateCard("2023", "08"), 555, 18.56f, 10000);
+            Cash cash1 = new Cash(500);
+            List<IPayment> paymentMethods3 = new List<IPayment>() { card4, card5, cash1 };
+            BankClient client3 = new BankClient("Petya", "Petichkin", new Address("Minsk", "Primorskaya", 3, 3), paymentMethods3);
+
+            CreditCard card6 = new CreditCard("5555555555555555", new DateCard("2023", "07"), 666, 17.56f, 11000);
+            DebetCard card7 = new DebetCard("6666666666666666", new DateCard("2023", "06"), 777, 950);
+            Cash cash2 = new Cash(400);
+            Bitcoin bitcoin1 = new Bitcoin(10f, 10f * exchangeRate);
+            List<IPayment> paymentMethods4 = new List<IPayment>() { card6, card7, cash2, bitcoin1};
+            BankClient client4 = new BankClient("Sasha", "Vasechkin", new Address("Brest", "Kupalskaya", 4, 4), paymentMethods4);
+
+            List<BankClient> bankClients = new List<BankClient>() { client1, client4, client3, client2 };
+
+            var sortClients = bankClients.OrderBy(x => x.LastName).ToList();
+            Console.WriteLine("    Sorting by customer lastname:     ");
+            foreach (var sortItem in sortClients)
+            {
+                sortItem.ShowPaymentInfo();
+            }
+
+            var sortAddress = bankClients.OrderBy(x => x.Address.City).ToList();
+            Console.WriteLine("\n    Sorting by customer address:     ");
+            foreach (var sortItem in sortAddress)
+            {
+                sortItem.ShowPaymentInfo();
+            }
+
+            var sortPayItems = bankClients.OrderBy(x => x.GetPaymentMethodCount()).ToList();
+            Console.WriteLine("\n    Sorting by quantity payment cards:     ");
+            foreach (var sortItem in sortPayItems)
+            {
+                sortItem.ShowPaymentInfo();
+            }
+
+            var sortAmountSum = bankClients.OrderBy(x => x.GetPaymentAmountSum()).ToList();
+            Console.WriteLine("\n    Sorting by total amount of money:     ");
+            foreach (var sortItem in sortAmountSum)
+            {
+                sortItem.ShowPaymentInfo();
+            }
+
+            
+            var sortMaxSum = bankClients.OrderBy(x => x.PaymentMethods.Max(y => y.GetSum() )).ToList();
+            Console.WriteLine("\n    Sorting by the amount of money on one payment mean:     ");
+            foreach (var sortItem in sortMaxSum)
+            {
+                sortItem.ShowPaymentInfo();
+            }
+
+            Console.WriteLine("\n    -----------------------------------------------------------------    ");
+
+            Console.WriteLine("\nDebet cards:   ");
+            foreach (var item in bankClients)
+            {
+                var debCards = item.PaymentMethods.Where(x => x is DebetCard).ToList();
+                if (debCards.Count > 0) 
+                {
+                    Console.WriteLine(item.FirstName + " " + item.LastName + " Debet Cards:");
+                    foreach (var card in debCards) 
+                    {
+                        Console.WriteLine(card.GetFullInformation());
+                    }
+
+                }
+
+            }
+
+            Console.WriteLine("\nMoney available:   ");        
+            foreach (var item in bankClients)
+            {
+                Console.WriteLine(item.FirstName + " " + item.LastName + " Money available: " + item.PaymentMethods.Sum(y => y.GetSum()));
+            }
+
+            Console.WriteLine("\nThe richest:   ");
+            var richClient = bankClients.OrderBy(x => x.PaymentMethods.Sum(y => y.GetSum())).Last();
+            Console.WriteLine(richClient.FirstName + " " + richClient.LastName + " Money available: " + richClient.PaymentMethods.Sum(y => y.GetSum()));
+
+            Console.WriteLine("\nBitcoins:   ");
+            var bitcoinOwners = bankClients.Where(x => x.PaymentMethods.Any(y => y is Bitcoin && (y as Bitcoin).Sum > 0)).
+                OrderByDescending(x => x.PaymentMethods.Sum(y => y.GetSum())).ToList();
+            foreach (var item in bitcoinOwners)
+            {
+                Console.WriteLine(item.FirstName + " " + item.LastName + " Money available: " + item.PaymentMethods.Sum(y => y.GetSum()));
+            }
+
+        }
+
         static void Main(string[] args)
 
         {
             //Task1();
-            Task2();
+            //Task2();
+            Task3();
         }
     }
 }
